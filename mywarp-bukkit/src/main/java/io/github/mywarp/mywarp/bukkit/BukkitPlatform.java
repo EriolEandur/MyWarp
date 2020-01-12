@@ -73,6 +73,11 @@ public class BukkitPlatform implements Platform {
   }
 
   @Override
+  public File getDataFolder() {
+      return plugin.getDataFolder();
+  }
+  
+  @Override
   public BukkitSettings getSettings() {
     return settings;
   }
