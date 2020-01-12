@@ -20,6 +20,7 @@
 package io.github.mywarp.mywarp;
 
 import com.google.common.eventbus.EventBus;
+import com.mcmiddleearth.mywarp.MCMEWarpUtil;
 
 import io.github.mywarp.mywarp.command.CommandHandler;
 import io.github.mywarp.mywarp.platform.Game;
@@ -105,6 +106,9 @@ public final class MyWarp {
    * @throws StorageInitializationException if the Storage system could not be initialized
    */
   public static MyWarp initialize(Platform platform, SqlDataService dataService) throws StorageInitializationException {
+    
+    MCMEWarpUtil.init(platform);
+      
     WarpStorage
         warpStorage =
         new AsyncWritingWarpStorage(WarpStorageFactory.createAndInitialize(dataService),

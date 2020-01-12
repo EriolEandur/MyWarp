@@ -50,7 +50,12 @@ class WarpNameProvider extends AbstractProvider<String> {
 
   @Override
   public String get(CommandArgs arguments, List<? extends Annotation> modifiers) throws ArgumentException {
-    final String name = arguments.next();
+    //final String name = arguments.next();
+    String name = arguments.next();
+    String subCmd = name;
+    while(arguments.hasNext()) {
+        name = name + " " + arguments.next();
+    }
 
     if (existsSameNameWarp(name, settings.isCaseSensitiveWarpNames())) {
       throw new InvalidWarpNameException(name, InvalidWarpNameException.Reason.ALREADY_EXISTS);

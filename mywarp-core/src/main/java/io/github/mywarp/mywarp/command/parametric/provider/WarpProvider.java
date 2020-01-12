@@ -20,6 +20,7 @@
 package io.github.mywarp.mywarp.command.parametric.provider;
 
 import com.google.common.collect.Lists;
+import com.mcmiddleearth.mywarp.MCMEWarpUtil;
 import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.argument.MissingArgumentException;
 import com.sk89q.intake.argument.Namespace;
@@ -52,12 +53,25 @@ abstract class WarpProvider extends AbstractProvider<Warp> {
   public Warp get(CommandArgs arguments, List<? extends Annotation> modifiers)
       throws MissingArgumentException, NoSuchWarpException {
     String query = arguments.next();
-
-    Matches<Warp>
-        matches =
-        Matches.from(warpManager.getAll(isValid(arguments.getNamespace()))).withStringFunction(Warp::getName)
-            .withValueComparator(new Warp.PopularityComparator()).forQuery(query);
-    return matches.getExactMatch().orElseThrow(() -> new NoSuchWarpException(query, matches.getSortedMatches()));
+    if(query.equalsIgnoreCase("random")) {
+//Logger.getGlobal().info("random warp");
+        Warp random = MCMEWarpUtil.getRandomWarp(warpManager.getAll(isValid(arguments.getNamespace())));
+        if(random == null) {
+            throw new NoSuchWarpException("random", Matches.from(warpManager.getAll(isValid(arguments.getNamespace()))).withStringFunction(Warp::getName)
+                .withValueComparator(new Warp.PopularityComparator()).forQuery(query).getSortedMatches());
+        }
+        return random;
+    } else {
+        while(arguments.hasNext()) {
+            query = query + " " + arguments.next();
+        } 
+        final String finalQuery = query;
+        Matches<Warp>
+            matches =
+            Matches.from(warpManager.getAll(isValid(arguments.getNamespace()))).withStringFunction(Warp::getName)
+                .withValueComparator(new Warp.PopularityComparator()).forQuery(query);
+        return matches.getExactMatch().orElseThrow(() -> new NoSuchWarpException(finalQuery, matches.getSortedMatches()));
+      }
   }
 
   /**

@@ -25,6 +25,7 @@ import io.github.mywarp.mywarp.platform.capability.TimerCapability;
 import io.github.mywarp.mywarp.platform.paginatedcontent.PaginatedContent;
 import io.github.mywarp.mywarp.platform.paginatedcontent.SimplePaginatedContent;
 import io.github.mywarp.mywarp.warp.storage.SqlDataService;
+import java.io.File;
 
 import java.util.Optional;
 
@@ -33,7 +34,10 @@ import java.util.Optional;
  */
 public interface Platform {
 
-  /**
+  
+    File getDataFolder();
+    
+   /**
    * Gets the {@link Game} as implemented by this Platform.
    *
    * @return the {@code Game}
