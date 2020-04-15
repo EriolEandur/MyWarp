@@ -1,5 +1,6 @@
 name: ${projectName}
 version: ${version}
+api-version: 1.15
 description: ${projectDescription}
 authors:
   - tkelly
